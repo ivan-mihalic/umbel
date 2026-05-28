@@ -28,8 +28,8 @@ already have.
 2. **See what's there**: adopt scans, then prints a report —
    how many skills / agents / hooks / MCP servers can be
    imported, and which items it found but **can't** import,
-   with the reason (e.g. *unsupported MCP transport*, *broken
-   manifest*). Nothing is ever silently dropped.
+   with the reason (e.g. _unsupported MCP transport_, _broken
+   manifest_). Nothing is ever silently dropped.
 3. **Tick what you want**: per-category checkboxes (skills,
    agents, hooks, mcps). Plugin items are grouped by which
    plugin they came from so the user always knows the
@@ -47,7 +47,7 @@ already have.
   additive verb — every other umbel command behaves exactly as
   before. (Codified as acceptance criterion #11 in the design.)
 - Doesn't edit existing bundle manifests. The hand-off to
-  `umbel init` always produces a *new* bundle.
+  `umbel init` always produces a _new_ bundle.
 - Doesn't modify or delete the user's `~/.claude/` source files.
   It only reads from them.
 - Doesn't support non-`stdio` MCP servers, slash commands, or
