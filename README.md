@@ -91,7 +91,7 @@ Override the root with `UMBEL_ARTIFACTS_DIR` (default
 ### Adopt
 
 `umbel adopt` is an interactive importer that reads your existing Claude Code
-setup and copies (or symlinks) artifacts into `$UMBEL_ARTIFACTS_DIR`. It
+setup and copies artifacts into `$UMBEL_ARTIFACTS_DIR`. It
 scans three sources: `~/.claude/` (user-scope skills, agents, hooks, and
 stdio MCP servers), a project `.claude/` directory, and
 `~/.claude/plugins/cache/` (plugin-shipped artifacts). Each import run is
