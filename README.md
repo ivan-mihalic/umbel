@@ -27,6 +27,15 @@ Requires Node ≥ 18.17. Unix only (symlinks).
 
 ## Quickstart
 
+If you already have a working `~/.claude/` setup, start with:
+
+```bash
+umbel adopt
+```
+
+This walks you through importing your existing skills, agents, hooks, and
+MCP servers (including plugin-shipped ones) into umbel.
+
 First, get some artifacts on disk (skills, agents, hooks, MCPs) — see
 [Installing artifacts](#installing-artifacts). Then author a bundle at
 `~/.config/umbel/bundles/data-science.md`:
@@ -78,6 +87,22 @@ reference artifacts as `<source>/<leaf>`.
 
 Override the root with `UMBEL_ARTIFACTS_DIR` (default
 `$XDG_CONFIG_HOME/umbel`, typically `~/.config/umbel`).
+
+### Adopt
+
+`umbel adopt` is an interactive importer that reads your existing Claude Code
+setup and copies (or symlinks) artifacts into `$UMBEL_ARTIFACTS_DIR`. It
+scans three sources: `~/.claude/` (user-scope skills, agents, hooks, and
+stdio MCP servers), a project `.claude/` directory, and
+`~/.claude/plugins/cache/` (plugin-shipped artifacts). Each import run is
+tracked in `$UMBEL_ARTIFACTS_DIR/.adopt-meta/<source>.json` so umbel knows
+which items it manages. `umbel adopt --refresh <source>` re-imports only the
+tracked items for that source, leaving any hand-rolled siblings untouched.
+`umbel adopt --dry-run` prints the full resolved plan without writing
+anything.
+
+See [`docs/adopt-overview.md`](docs/adopt-overview.md) for a feature walkthrough
+and [`docs/adopt-design.md`](docs/adopt-design.md) for the internal design.
 
 ### General recipe — import a Claude Code plugin repo
 
