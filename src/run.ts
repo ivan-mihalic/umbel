@@ -106,7 +106,8 @@ async function runBundleVerb(
   if (verb === "gc") return runBundleGc(rest, env);
   if (verb === "shim") return runShim(rest, env);
   if (verb === "adopt") {
-    throw new UsageError("umbel adopt: not yet implemented");
+    const { runAdopt } = await import("./adopt/index.ts");
+    return runAdopt(rest, env, cwd);
   }
   return runBundleInit(env, cwd);
 }
