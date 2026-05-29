@@ -1,0 +1,75 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`adopt → compile round-trip > produces a compiled bundle layout matching the snapshot 1`] = `
+{
+  ".claude-plugin/plugin.json": "{
+  "name": "rt",
+  "version": "0.0.0+<HASH>"
+}",
+  ".mcp.json": "{
+  "mcpServers": {
+    "fsmcp": {
+      "command": "fs-mcp"
+    }
+  }
+}",
+  "bundle.md": "---
+name: rt
+hash: <HASH>
+skills:
+  - claude/demo
+hooks:
+  - cc-plugin-mkt-p/log
+mcps:
+  - claude/fsmcp
+---
+
+## Invocation
+
+\`\`\`bash
+claude \\
+  --plugin-dir <COMPILED_DIR> \\
+  --settings <COMPILED_DIR>/settings.json \\
+  --mcp-config <COMPILED_DIR>/.mcp.json \\
+  --strict-mcp-config
+\`\`\`
+",
+  "hooks/log/HOOK.md": "---
+name: log
+event: PreToolUse
+matcher: Bash
+command: ./log.sh
+---
+",
+  "hooks/log/hooks.json": "{"PreToolUse":[{"matcher":"Bash","hooks":[{"type":"command","command":"\${CLAUDE_PLUGIN_ROOT}/hooks/log.sh"}]}]}",
+  "hooks/log/log.sh": "#!/bin/sh
+echo hi
+",
+  "mcps/fsmcp/MCP.md": "---
+name: fsmcp
+command: fs-mcp
+---
+",
+  "settings.json": "{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\${CLAUDE_PLUGIN_ROOT}/hooks/log/log.sh"
+          }
+        ]
+      }
+    ]
+  }
+}",
+  "skills/demo/SKILL.md": "---
+name: demo
+description: a demo skill
+---
+body
+",
+}
+`;
