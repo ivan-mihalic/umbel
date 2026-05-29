@@ -1,5 +1,5 @@
 import { spawnSync } from "node:child_process";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { homedir } from "node:os";
 import { dirname, isAbsolute, join, resolve as pathResolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -23,6 +23,7 @@ import {
   resolveBundle,
   resolveBundleName,
 } from "./bundle/exec.ts";
+import { ARTIFACT_KINDS } from "./bundle/kinds.ts";
 import { renderList } from "./bundle/list.ts";
 import { readPin, removePin, writePin, writeVanillaPin } from "./bundle/pin.ts";
 import { renderShow } from "./bundle/show.ts";
@@ -377,6 +378,22 @@ function runBundleList(env: NodeJS.ProcessEnv, cwd: string): number {
   process.stdout.write(
     renderList(index.entries, { userDir: index.userDir, projectDir: index.projectDir }),
   );
+  if (index.entries.length === 0) {
+    const root = env.UMBEL_ARTIFACTS_DIR
+      ? pathResolve(env.UMBEL_ARTIFACTS_DIR)
+      : (() => {
+          const xdg = env.XDG_CONFIG_HOME;
+          const base = xdg && xdg.length > 0 ? xdg : join(env.HOME ?? homedir(), ".config");
+          return join(base, "umbel");
+        })();
+    const hasArtifacts = ARTIFACT_KINDS.some((k) => {
+      const dir = join(root, k);
+      return existsSync(dir) && readdirSync(dir).length > 0;
+    });
+    if (!hasArtifacts) {
+      process.stdout.write("Run 'umbel adopt' to import from your existing ~/.claude/ setup.\n");
+    }
+  }
   return 0;
 }
 
