@@ -54,11 +54,13 @@
   "dependencies": {
     "@clack/prompts": "^1.4.0",
     "gray-matter": "^4.0.3",
+    "semver": "^7.8.1",
     "yaml": "^2.8.4"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
     "@types/node": "^22.0.0",
+    "@types/semver": "^7.7.1",
     "tsup": "^8.3.0",
     "tsx": "^4.19.0",
     "typescript": "^5.6.0",
