@@ -20,6 +20,7 @@ Bundle verbs:
   umbel shim install [--force]        Install the PATH shim (~/.local/share/umbel/bin/claude).
   umbel shim uninstall                Remove the shim.
   umbel shim path                     Print the shim's absolute path.
+  umbel adopt                         Interactive import of existing Claude Code artifacts.
 
 Skills picker (v0, low-level):
   --target <path>     Exact parent dir for skill symlinks (non-interactive)
@@ -57,6 +58,7 @@ export const BUNDLE_VERBS = new Set([
   "build",
   "gc",
   "shim",
+  "adopt",
 ]);
 
 export type Subcommand =
