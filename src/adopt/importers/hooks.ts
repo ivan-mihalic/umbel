@@ -114,6 +114,7 @@ function buildItem(
       // crossDirRel + pluginRoot smuggled via index signature so write.ts can pick them up
       ...(classify.crossDirRel ? { crossDirRel: classify.crossDirRel } : {}),
       ...(classify.pluginRoot ? { pluginRoot: classify.pluginRoot } : {}),
+      ...(classify.sidecarsDir ? { sidecarsDir: classify.sidecarsDir } : {}),
     } as never,
     status: "ready",
   };
@@ -124,6 +125,7 @@ interface ClassifyResult {
   leaf: string;
   crossDirRel?: string;
   pluginRoot?: string;
+  sidecarsDir?: string;
 }
 interface ClassifyFail {
   kind: "unimportable";
@@ -143,7 +145,7 @@ function classifyCommand(
     const rel = trimmed.slice(PLUGIN_ROOT_PREFIX.length).split(/\s+/, 1)[0] ?? "";
     if (rel.startsWith("hooks/")) {
       const fileBase = basename(rel);
-      return { kind: "leaf", leaf: stripExt(fileBase) };
+      return { kind: "leaf", leaf: stripExt(fileBase), sidecarsDir: join(pluginRoot, "hooks") };
     }
     const onDisk = join(pluginRoot, rel);
     if (!existsSync(onDisk)) {
