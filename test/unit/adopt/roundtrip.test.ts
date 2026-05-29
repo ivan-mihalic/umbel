@@ -56,7 +56,7 @@ describe("adopt → compile round-trip", () => {
         JSON.stringify({
           PreToolUse: [
             {
-              matcher: "Bash",
+              matcher: "*",
               hooks: [{ type: "command", command: "${CLAUDE_PLUGIN_ROOT}/hooks/log.sh" }],
             },
           ],

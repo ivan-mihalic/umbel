@@ -37,24 +37,24 @@ claude \\
   "hooks/log/HOOK.md": "---
 name: log
 event: PreToolUse
-matcher: Bash
-command: ./log.sh
+matcher: "*"
+command: "./log.sh"
 ---
 ",
-  "hooks/log/hooks.json": "{"PreToolUse":[{"matcher":"Bash","hooks":[{"type":"command","command":"\${CLAUDE_PLUGIN_ROOT}/hooks/log.sh"}]}]}",
+  "hooks/log/hooks.json": "{"PreToolUse":[{"matcher":"*","hooks":[{"type":"command","command":"\${CLAUDE_PLUGIN_ROOT}/hooks/log.sh"}]}]}",
   "hooks/log/log.sh": "#!/bin/sh
 echo hi
 ",
   "mcps/fsmcp/MCP.md": "---
 name: fsmcp
-command: fs-mcp
+command: "fs-mcp"
 ---
 ",
   "settings.json": "{
   "hooks": {
     "PreToolUse": [
       {
-        "matcher": "Bash",
+        "matcher": "*",
         "hooks": [
           {
             "type": "command",

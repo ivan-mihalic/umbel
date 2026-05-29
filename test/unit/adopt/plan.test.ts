@@ -1,3 +1,4 @@
+import matter from "gray-matter";
 import { describe, expect, it } from "vitest";
 import { buildPlan } from "../../../src/adopt/plan.ts";
 import type { AdoptableItem, ResolvedOrigin } from "../../../src/adopt/types.ts";
@@ -54,8 +55,35 @@ describe("buildPlan", () => {
     const hookMd = write?.files.find((f) => f.relPath === "HOOK.md");
     expect(hookMd?.from.kind).toBe("content");
     expect((hookMd?.from as { data: string }).data).toMatch(/event: PreToolUse/);
-    expect((hookMd?.from as { data: string }).data).toMatch(/matcher: Bash/);
-    expect((hookMd?.from as { data: string }).data).toMatch(/command: echo hi/);
+    expect((hookMd?.from as { data: string }).data).toMatch(/matcher: "Bash"/);
+    expect((hookMd?.from as { data: string }).data).toMatch(/command: "echo hi"/);
+  });
+
+  it("renders HOOK.md frontmatter that parses as valid YAML (wildcard matcher + hostile command)", () => {
+    const item: AdoptableItem = {
+      kind: "hooks",
+      leaf: "all",
+      originGroup: "claude",
+      originLabel: "claude",
+      source: {
+        type: "settings-hook",
+        settingsPath: "/x/settings.json",
+        event: "PreToolUse",
+        matcher: "*",
+        entry: { type: "command", command: "echo {x}: done" },
+      },
+      status: "ready",
+    };
+    const plan = buildPlan({
+      origin: ORIGIN,
+      defaultSourceName: "claude",
+      selected: [item],
+      artifactRoot: "/art",
+    });
+    const hookMd = plan.items[0]?.writes[0]?.files.find((f) => f.relPath === "HOOK.md");
+    const data = matter((hookMd?.from as { data: string }).data).data;
+    expect(data.matcher).toBe("*");
+    expect(data.command).toBe("echo {x}: done");
   });
 
   it("synthesizes MCP.md for mcp-json source", () => {
@@ -79,6 +107,6 @@ describe("buildPlan", () => {
       artifactRoot: "/art",
     });
     const mcpMd = plan.items[0]?.writes[0]?.files.find((f) => f.relPath === "MCP.md");
-    expect((mcpMd?.from as { data: string }).data).toMatch(/command: uvx/);
+    expect((mcpMd?.from as { data: string }).data).toMatch(/command: "uvx"/);
   });
 });

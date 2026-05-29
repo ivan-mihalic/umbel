@@ -94,7 +94,7 @@ describe("writePlan", () => {
     expect(existsSync(join(target, "HOOK.md"))).toBe(true);
     expect(existsSync(join(target, "log.sh"))).toBe(true);
     const hookMd = readFileSync(join(target, "HOOK.md"), "utf8");
-    expect(hookMd).toMatch(/command: \.\/log\.sh/);
+    expect(hookMd).toMatch(/command: "\.\/log\.sh"/);
   });
 
   it("idempotent on already-imported items (status filter)", () => {

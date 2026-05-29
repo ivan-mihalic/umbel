@@ -81,8 +81,8 @@ function renderHookMd(item: AdoptableItem): string {
     "---",
     `name: ${item.leaf}`,
     `event: ${s.event}`,
-    `matcher: ${s.matcher}`,
-    `command: ${rewriteCommand(s.entry.command, item)}`,
+    `matcher: ${JSON.stringify(s.matcher)}`,
+    `command: ${JSON.stringify(rewriteCommand(s.entry.command, item))}`,
   ];
   for (const [k, v] of Object.entries(passThrough)) {
     lines.push(`${k}: ${JSON.stringify(v)}`);
@@ -95,7 +95,7 @@ function renderMcpMd(item: AdoptableItem): string {
   if (item.source.type !== "mcp-json") return "";
   const cfg = item.source.config;
   const { command, type: _type, ...passThrough } = cfg as Record<string, unknown>;
-  const lines = ["---", `name: ${item.leaf}`, `command: ${command}`];
+  const lines = ["---", `name: ${item.leaf}`, `command: ${JSON.stringify(command)}`];
   for (const [k, v] of Object.entries(passThrough)) {
     lines.push(`${k}: ${JSON.stringify(v)}`);
   }
