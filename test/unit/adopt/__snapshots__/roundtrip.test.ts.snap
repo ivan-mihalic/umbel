@@ -29,11 +29,25 @@ mcps:
 \`\`\`bash
 claude \\
   --plugin-dir <COMPILED_DIR> \\
-  --settings <COMPILED_DIR>/settings.json \\
   --mcp-config <COMPILED_DIR>/.mcp.json \\
   --strict-mcp-config
 \`\`\`
 ",
+  "hooks/hooks.json": "{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\${CLAUDE_PLUGIN_ROOT}/hooks/log/log.sh"
+          }
+        ]
+      }
+    ]
+  }
+}",
   "hooks/log/HOOK.md": "---
 name: log
 event: PreToolUse
@@ -50,21 +64,6 @@ name: fsmcp
 command: "fs-mcp"
 ---
 ",
-  "settings.json": "{
-  "hooks": {
-    "PreToolUse": [
-      {
-        "matcher": "*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "\${CLAUDE_PLUGIN_ROOT}/hooks/log/log.sh"
-          }
-        ]
-      }
-    ]
-  }
-}",
   "skills/demo/SKILL.md": "---
 name: demo
 description: a demo skill
