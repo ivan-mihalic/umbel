@@ -113,6 +113,16 @@ coexist on disk without flat-name collisions (e.g. `pocock/tdd` alongside
 operator — typical values: a tool name (`plannotator`), an upstream-org name
 (`superpowers`), or `local/` for hand-authored content.
 
+> **Reserved for `umbel adopt`.** The importer writes into source
+> buckets named `claude` (user-scope `~/.claude/`),
+> `claude-project-<slug>` (a project `.claude/`), and
+> `cc-plugin-<marketplace>-<plugin>` (plugin-shipped artifacts), and
+> tracks them in `.adopt-meta/<source>.json`. Hand-authored content
+> should avoid these prefixes: re-running `umbel adopt --refresh
+> <source>` deletes everything the metadata lists under that bucket.
+> Hand-rolled siblings *not* in the metadata are preserved, but
+> keeping your own content under a separate `<source>` is safer.
+
 **Canonical name** of a skill/agent is the frontmatter `name:` field of
 `SKILL.md`/`AGENT.md`. The source-side leaf is an organizational alias and
 may differ from the canonical name (e.g. source leaf `annotate` but

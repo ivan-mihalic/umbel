@@ -247,7 +247,13 @@ If `$UMBEL_ARTIFACTS_DIR/<kind>/<source>/<leaf>/` already exists:
     (`origin.type` → corresponding step [1] selection;
     `origin.path` prefilled for `project`). The metadata-stored
     origin removes the need for slug-pattern inference, so custom
-    source names also refresh correctly.
+    source names also refresh correctly. Step [1] offers only
+    Global/Project, and plugins are scanned *within* Global — so a
+    `cc-plugin-*` bucket adopted via Global records
+    `origin:{type:global}`, and `--refresh <plugin-source>`
+    re-scans Global to re-surface that plugin's items. The
+    `{type:plugin}` origin shape (below) is reserved for a future
+    direct-plugin origin and is not produced by the MVP flow.
   - After successful re-import, the metadata file is rewritten
     with the new item list and `lastAdoptedAt`.
   - Conflict policy after refresh: bucket is now empty (for
@@ -269,9 +275,12 @@ verbs to know about it:
 
 - `umbel --help` / `umbel adopt --help` — `adopt` appears in the verb
   list with one-line summary.
-- `umbel list` on an empty artifact root prints a one-line hint:
-  `No artifacts found. Run 'umbel adopt' to import from your existing
-  ~/.claude/ setup.` (Other empty-state behaviour unchanged.)
+- `umbel list`, when there are no bundles **and** no adopted
+  artifacts, appends a one-line hint after the usual `no bundles
+  found` line: `Run 'umbel adopt' to import from your existing
+  ~/.claude/ setup.` If any bundles exist, or any artifacts have
+  already been adopted, the hint is suppressed. (Other empty-state
+  behaviour unchanged.)
 - README Quickstart adds `umbel adopt` as the first recommended step
   for users coming from a pre-existing Claude Code installation.
 - CHANGELOG `Unreleased` entry under a new "Adopt" heading.
@@ -619,10 +628,10 @@ implementation plan owes us:
 - **Plugin source slug length** — `cc-plugin-claude-plugins-official-superpowers`
   is verbose. Accept the verbosity in MVP for unambiguous attribution;
   consider an alias mechanism later (`adopt --alias superpowers`).
-- **Adopt-managed source detection** — should the reserved prefixes
-  (`claude`, `claude-project-`, `cc-plugin-`) be documented in
-  `docs/bundles-spec.md` so users hand-authoring bundles know to avoid
-  them? Decide once we have one working iteration.
+- **Adopt-managed source detection** — *Resolved.* The reserved
+  prefixes (`claude`, `claude-project-`, `cc-plugin-`) are documented
+  in `docs/bundles-spec.md` (source attribution section) so users
+  hand-authoring bundles know to avoid them.
 - **Re-adopt with diff** — `--refresh` ships in MVP for bulk
   upgrades. A finer-grained per-item diff/overwrite flow is a
   follow-up if user feedback shows demand.

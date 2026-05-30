@@ -67,8 +67,8 @@ again.
 ## How users discover it
 
 - Listed in `umbel --help` like any other verb.
-- `umbel list` on an empty artifact directory prints a one-line
-  hint pointing at `umbel adopt`.
+- `umbel list`, when there are no bundles and no adopted artifacts,
+  prints a one-line hint pointing at `umbel adopt`.
 - Added to the README quickstart as the first recommended step
   for users with an existing Claude Code installation.
 - CHANGELOG entry under a new "Adopt" heading.
